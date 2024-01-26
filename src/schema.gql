@@ -1,0 +1,95 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Pagination {
+  total: Float!
+  hasNextPage: Boolean!
+}
+
+type User {
+  _id: String!
+  name: String!
+  email: String!
+  password: String!
+  phone: String!
+  role: String!
+}
+
+type UserResponse {
+  message: String
+  pagination: Pagination
+  users: [User!]
+  user: User
+}
+
+type UserLoginResponse {
+  message: String
+  user: UserResponse!
+  accessToken: String!
+  refreshToken: String!
+}
+
+type Product {
+  _id: String!
+  productName: String!
+  description: String!
+}
+
+type ProductResponse {
+  message: String
+  pagination: Pagination
+  products: [Product!]
+  product: Product
+}
+
+type Query {
+  getUser(id: String!): UserResponse!
+}
+
+type Mutation {
+  createUser(input: CreateUserDTO!): UserResponse!
+  updateUser(id: String!, input: UpdateUserDTO!): UserResponse!
+  deleteUser(id: String!): UserResponse!
+  deleteAllUsers: UserResponse!
+  login(input: LoginUserDTO!): UserLoginResponse!
+  product(input: CreateProductDTO!): ProductResponse!
+}
+
+input CreateUserDTO {
+  name: String!
+  email: String!
+  phone: String!
+  password: String!
+  role: String!
+}
+
+input UpdateUserDTO {
+  name: String
+  email: String
+  phone: String
+  password: String
+  role: String
+}
+
+input LoginUserDTO {
+  email: String!
+  password: String!
+}
+
+input CreateProductDTO {
+  productName: String!
+  subDescription: String!
+  description: String!
+  productCode: String!
+  productSize: String!
+  sku: String!
+  category: String!
+  quantity: Float!
+  regularPrice: Float!
+  salePrice: Float!
+  offerPrice: Float!
+  imageUrl: String!
+  raing: Float!
+  stock: Boolean!
+}
