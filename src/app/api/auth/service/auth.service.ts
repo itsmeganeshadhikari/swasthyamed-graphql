@@ -3,10 +3,9 @@ import {
 } from '@nestjs/common';
 import { JwtService } from './jwt.service';
 import { HashService } from './hash.service';
-import { UserDocument, UsersRepository } from 'libs/data-access/src';
-import { UserResponse } from '../../user/dto/response/user.response';
+import { User, UserDocument, UsersRepository } from 'libs/data-access/src';
 import { UserLoginResponse } from '../dto/response/auth-response';
-import { log } from 'console';
+import { UserService } from '../../user/service/user.service';
 
 @Injectable()
 export class AuthService {
@@ -36,8 +35,7 @@ export class AuthService {
       role: user.role,
     };
     const accessToken = await this.jwtService.signAccessToken(payload);
-    const refreshToken = await this.jwtService.signRefreshToken(payload);
-
+    const refreshToken = await this.jwtService.signRefreshToken(payload)
     return {
       user,
       accessToken,

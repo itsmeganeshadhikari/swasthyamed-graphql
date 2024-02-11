@@ -51,5 +51,6 @@ let Messages;
 if (lang == 'EN') {
   Messages = responseMessages.EN;
 }
+export const CLOUDINARY = 'Cloudinary';
 
 export default Messages;

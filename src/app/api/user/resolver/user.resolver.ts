@@ -1,16 +1,18 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
+import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CreateUserDTO } from '../dto/input/create-user.dto';
-import { GetUsersDTO } from '../dto/input/get-users.dto';
 import { UpdateUserDTO } from '../dto/input/update-user.dto';
-import { MockResponse, UserResponse } from '../dto/response/user.response';
+import { UserResponse } from '../dto/response/user.response';
 import { UserService } from '../service/user.service';
 
 import lang from '../../constants/language';
+import { JwtAuthGuard } from '../../auth/guard/jwt.authguard';
 
 @Resolver()
 export class UserResolver {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    ) {}
   
   @Query(() => UserResponse)
   async getUser(@Args('id') id: string) {
@@ -64,5 +66,16 @@ export class UserResolver {
   async deleteAllUsers() {
     await this.userService.deleteAllUsers();
     return { message: 'All users deleted successfully' };
+  }
+
+  @Query(() => UserResponse, { name : 'me'})
+  @UseGuards(JwtAuthGuard)
+  async getUserMe(@Context() context) {
+    const user = await this.userService.getUserById(context.req.user.id)
+    if (!user) {
+      throw new HttpException(lang.INVALID_USER_ID, HttpStatus.BAD_REQUEST);
+    }
+
+    return { user };
   }
 }

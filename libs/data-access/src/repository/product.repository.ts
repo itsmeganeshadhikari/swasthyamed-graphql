@@ -4,9 +4,9 @@ import { Product, ProductDocument } from "../schema/product.schema";
 import { Model } from "mongoose";
 
 export class ProductRepository extends BaseRepository {
-    constructor(
-        @InjectModel(Product.name) private readonly product: Model<ProductDocument>,
-    ) {
+  constructor(
+    @InjectModel(Product.name) private readonly product: Model<ProductDocument>,
+  ) {
     super(product);
   }
 
@@ -15,7 +15,7 @@ export class ProductRepository extends BaseRepository {
   }
 
   async getProductById(id: string | any) {
-    return this.product.findById({_id:id})
+    return this.product.findById({ _id: id })
   }
 
 }

@@ -1,8 +1,15 @@
 import { Field, InputType } from '@nestjs/graphql';
 import {
   IsNotEmpty,
+  IsOptional,
   IsString,
 } from 'class-validator';
+
+@InputType()
+export class ImageType {
+  @Field()
+  image: string;
+}
 
 @InputType()
 export class CreateProductDTO {
@@ -33,13 +40,17 @@ export class CreateProductDTO {
 
   @Field()
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   sku: string
 
   @Field()
   @IsString()
   @IsNotEmpty()
   category: string;
+
+  @Field()
+  @IsString()
+  productImagePreview: string
 
   @Field()
   @IsNotEmpty()
@@ -57,16 +68,14 @@ export class CreateProductDTO {
   @IsNotEmpty()
   offerPrice: number;
 
-  @Field()
-  @IsString()
-  @IsNotEmpty()
-  imageUrl: string
-  
-  @Field()
-  @IsNotEmpty()
-  raing: number;
+  @Field(() => [String])
+  productImage: [String]
 
-  @Field()
-  @IsNotEmpty()
-  stock: boolean
+  // @Field()
+  // @IsNotEmpty()
+  // rating: number;
+
+  // @Field()
+  // @IsNotEmpty()
+  // stock: boolean
 }

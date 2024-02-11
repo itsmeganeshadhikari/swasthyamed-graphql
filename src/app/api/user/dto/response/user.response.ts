@@ -6,7 +6,9 @@ class User {
   @Field()
   _id: string;
   @Field()
-  name: string;
+  firstName: string;
+  @Field()
+  lastName: string;
   @Field()
   email: string;
   @Field()

@@ -1,6 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { User } from 'libs/data-access/src';
-import { UserResponse } from 'src/app/api/user/dto/response/user.response';
+import { UserType } from './auth-response-type';
 
 @ObjectType()
 class AuthResponse {
@@ -10,7 +10,7 @@ class AuthResponse {
 
 @ObjectType()
 export class UserLoginResponse extends AuthResponse {
-  @Field(() => UserResponse)
+  @Field(() => UserType)
   user: User;
 
   @Field(() => String)

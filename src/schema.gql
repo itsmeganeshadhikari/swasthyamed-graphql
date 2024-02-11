@@ -2,6 +2,22 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type UserType {
+  _id: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  role: String
+  phone: String
+}
+
+type UserLoginResponse {
+  message: String
+  user: UserType!
+  accessToken: String!
+  refreshToken: String!
+}
+
 type Pagination {
   total: Float!
   hasNextPage: Boolean!
@@ -9,7 +25,8 @@ type Pagination {
 
 type User {
   _id: String!
-  name: String!
+  firstName: String!
+  lastName: String!
   email: String!
   password: String!
   phone: String!
@@ -23,17 +40,27 @@ type UserResponse {
   user: User
 }
 
-type UserLoginResponse {
-  message: String
-  user: UserResponse!
-  accessToken: String!
-  refreshToken: String!
+type ImageType {
+  public_id: String!
+  url: String!
 }
 
 type Product {
   _id: String!
   productName: String!
+  subDescription: String!
   description: String!
+  productCode: String!
+  productSize: String!
+  sku: String!
+  category: String!
+  quantity: Float!
+  regularPrice: Float!
+  salePrice: Float!
+  offerPrice: Float!
+  image: [ImageType!]!
+  rating: Float!
+  stock: Boolean!
 }
 
 type ProductResponse {
@@ -43,8 +70,68 @@ type ProductResponse {
   product: Product
 }
 
+type Address {
+  _id: String!
+  name: String!
+  building: String!
+  street: String!
+  state: String!
+  city: String!
+  isDefault: Boolean!
+  phone: String!
+}
+
+type AddressResponse {
+  message: String!
+  pagination: Pagination
+  addresss: [Address!]
+  address: Address
+}
+
+type Image {
+  public_id: String!
+  url: String!
+}
+
+type Transaction {
+  _id: String!
+  image: Image!
+  user: String!
+}
+
+type TransactionResponse {
+  message: String
+  pagination: Pagination
+  transactions: [Transaction!]
+  transaction: Transaction
+}
+
+type Order {
+  message: String
+  pagination: Pagination
+  users: [User!]
+  user: User
+  _id: String!
+  method: String!
+  type: String!
+  total: Float!
+  discount: Float!
+  subTotal: Float!
+}
+
+type OrderResponse {
+  message: String
+  pagination: Pagination
+  orders: [Order!]
+  order: Order
+}
+
 type Query {
   getUser(id: String!): UserResponse!
+  me: UserResponse!
+  productlist: ProductResponse!
+  addressList: AddressResponse!
+  order(id: String!): OrderResponse!
 }
 
 type Mutation {
@@ -54,22 +141,29 @@ type Mutation {
   deleteAllUsers: UserResponse!
   login(input: LoginUserDTO!): UserLoginResponse!
   product(input: CreateProductDTO!): ProductResponse!
+  getProduct(input: String!): ProductResponse!
+  address(input: CreateAddressDTO!): AddressResponse!
+  getAddressById(input: String!): AddressResponse!
+  createTransaction(createTransactionInput: CreateTransactionInput!): TransactionResponse!
+  createOrder(createOrderInput: CreateOrderInput!): OrderResponse!
+  updateOrder(updateOrderInput: UpdateOrderInput!): OrderResponse!
+  removeOrder(id: Int!): OrderResponse!
 }
 
 input CreateUserDTO {
-  name: String!
+  firstName: String!
+  lastName: String!
   email: String!
   phone: String!
   password: String!
-  role: String!
 }
 
 input UpdateUserDTO {
-  name: String
+  firstName: String
+  lastName: String
   email: String
   phone: String
   password: String
-  role: String
 }
 
 input LoginUserDTO {
@@ -85,11 +179,52 @@ input CreateProductDTO {
   productSize: String!
   sku: String!
   category: String!
+  productImagePreview: String!
   quantity: Float!
   regularPrice: Float!
   salePrice: Float!
   offerPrice: Float!
-  imageUrl: String!
-  raing: Float!
-  stock: Boolean!
+  productImage: [String!]!
+}
+
+input CreateAddressDTO {
+  name: String!
+  building: String!
+  street: String!
+  state: String!
+  post: String!
+  country: String!
+  destination: String!
+  city: String!
+  isDefault: Boolean! = false
+  phone: String!
+  user: String!
+}
+
+input CreateTransactionInput {
+  transactionImage: String!
+  user: String!
+}
+
+input CreateOrderInput {
+  user: String!
+  product: [String!]!
+  method: String!
+  type: String!
+  address: String!
+  total: Float!
+  discount: Float!
+  subTotal: Float!
+}
+
+input UpdateOrderInput {
+  user: String
+  product: [String!]
+  method: String
+  type: String
+  address: String
+  total: Float
+  discount: Float
+  subTotal: Float
+  id: Int!
 }

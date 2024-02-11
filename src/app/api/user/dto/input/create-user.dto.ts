@@ -12,7 +12,12 @@ export class CreateUserDTO {
   @Field()
   @IsString()
   @IsNotEmpty()
-  name: string;
+  firstName: string;
+
+  @Field()
+  @IsString()
+  @IsNotEmpty()
+  lastName: string;
 
   @Field()
   @IsEmail()
@@ -28,11 +33,5 @@ export class CreateUserDTO {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  password: string;
-
-  @Field()
-  @IsString()
-  @IsNotEmpty()
-  @IsOptional()
-  role: string;
+  password: string
 }

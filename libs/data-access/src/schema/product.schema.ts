@@ -1,11 +1,21 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { Order } from './order.schema';
 
 export type ProductDocument = HydratedDocument<Product>;
 
+class ImageType {
+  @Prop()
+  public_id: string;
+
+  @Prop()
+  url: string;
+}
+
+
 @Schema({ timestamps: true })
 export class Product {
-  @Prop({required: true})
+  @Prop({ required: true })
   productName: string;
 
   @Prop()
@@ -13,7 +23,7 @@ export class Product {
 
   @Prop()
   description: string;
-  
+
   @Prop()
   productCode: string;
 
@@ -38,14 +48,20 @@ export class Product {
   @Prop()
   offerPrice: number;
 
-  @Prop()
-  imageUrl: string
-  
-  @Prop({default: 20})
-  raing: number;
+  @Prop({ type: () => [ImageType] })
+  image: [ImageType]
 
-  @Prop({default: true})
+  @Prop({ default: 20 })
+  rating: number;
+
+  @Prop({ default: true })
   stock: boolean
+
+  @Prop()
+  productImagePreview: string
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Order' })
+  order: Order;
 }
 
 export const productSchema = SchemaFactory.createForClass(Product);

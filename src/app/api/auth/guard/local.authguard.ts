@@ -8,7 +8,6 @@ export class GqlAuthGuard extends AuthGuard('local') {
     const ctx = GqlExecutionContext.create(context);
     const request = ctx.getContext();
     request.body = ctx.getArgs().input;
-    // console.log(request.body);
     return request;
   }
 }

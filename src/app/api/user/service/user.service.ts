@@ -43,15 +43,15 @@ export class UserService {
   }
 
   async createUser(input: CreateUserDTO) {
-    const { name, email, phone, password, role } = input;
+    const { firstName, lastName, email, phone, password } = input;
     const hash = await this.hashService.hashPassword(password);
 
     const user = await this.userRepository.create({
-      name,
+      firstName,
+      lastName,
       email,
       phone,
-      password: hash,
-      role
+      password: hash
     });
     return user;
   }

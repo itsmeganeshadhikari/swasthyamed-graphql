@@ -11,10 +11,13 @@ import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { ProductModule } from './app/api/product/product.module';
 import { UserModule } from './app/api/user/user.module';
+import { AddressModule } from './app/api/address/address.module';
+import { TransactionModule } from './app/api/transaction/transaction.module';
+import { OrderModule } from './app/api/order/order.module';
 
 @Module({
   imports: [
-   ConfigModule.forRoot({
+    ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
       expandVariables: true,
@@ -81,8 +84,11 @@ import { UserModule } from './app/api/user/user.module';
     UserModule,
     AuthModule,
     ProductModule,
+    AddressModule,
+    TransactionModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from "@nestjs/graphql";
+import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { ProductResponse } from "../dto/response/product.response";
 import { CreateProductDTO } from "../dto/input/create-product.dto";
 import { ProductService } from "../service/product.service";
@@ -7,15 +7,15 @@ import { JwtAuthGuard } from "../../auth/guard/jwt.authguard";
 import { Roles, RolesGuard } from "../../auth/guard/roles.guard";
 
 @Resolver()
-export class ProductResolver{
-    constructor(
-     private productService: ProductService
-    ){
-    }
+export class ProductResolver {
+  constructor(
+    private productService: ProductService
+  ) {
+  }
 
-    @Mutation(() => ProductResponse, { name: "product" })
-    @UseGuards(JwtAuthGuard, new RolesGuard(Roles.ADMIN))
-    async createProduct(@Args('input') input: CreateProductDTO) {
+  @Mutation(() => ProductResponse, { name: "product" })
+  @UseGuards(JwtAuthGuard, new RolesGuard(Roles.ADMIN))
+  async createProduct(@Args('input') input: CreateProductDTO) {
     try {
       const product = await this.productService.createProduct(input);
       return {
@@ -27,4 +27,29 @@ export class ProductResolver{
     }
   }
 
+  @Query(() => ProductResponse, { name: "productlist" })
+  async getProductsList() {
+    try {
+      const products = await this.productService.getAllProducts();
+      return {
+        message: 'product list',
+        products,
+      };
+    } catch (error) {
+      throw new HttpException("Error on create", HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Mutation(() => ProductResponse, { name: "getProduct" })
+  async getProductById(@Args('input') input: string) {
+    try {
+      const product = await this.productService.getProductById(input);
+      return {
+        message: 'products',
+        product,
+      };
+    } catch (error) {
+      throw new HttpException("Error on fetch", HttpStatus.BAD_REQUEST);
+    }
+  }
 }
