@@ -1,9 +1,11 @@
 import {
-  Injectable,
+  Injectable, NotFoundException,
 } from '@nestjs/common';
 import { ProductRepository } from 'libs/data-access/src/repository/product.repository';
 import { CreateProductDTO } from '../dto/input/create-product.dto';
 import cloudinary from '../../cloudinary/cloudinary';
+import lang from '../../constants/language';
+
 @Injectable()
 export class ProductService {
   constructor(
@@ -26,7 +28,7 @@ export class ProductService {
       salePrice,
       offerPrice,
     } = input;
-    // console.log(input);
+
     try {
       const images = []
       await Promise.all(productImage.map(async (image) => {
@@ -62,5 +64,14 @@ export class ProductService {
 
   async getProductById(id: string) {
     return this.productRepository.getProductById(id);
+  }
+
+  async deleteProduct(id: string) {
+    const product = await this.productRepository.findById(id);
+    if (!product) {
+      throw new NotFoundException(lang.INVALID_USER_ID);
+    }
+    await this.productRepository.deleteById(id);
+    return true;
   }
 }

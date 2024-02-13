@@ -4,6 +4,7 @@ import { JwtAuthGuard } from '../auth/guard/jwt.authguard';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { CreateAddressDTO } from './dto/input/create-address.dto';
 import { AddressService } from './address.service';
+import lang from '../constants/language';
 
 @Resolver()
 export class AddressResolver {
@@ -42,13 +43,22 @@ export class AddressResolver {
     async getAddressById(@Args('input') input: string) {
         try {
             const addresss = await this.addressService.getAddressById(input);
-            console.log(addresss)
             return {
                 message: 'Address',
                 addresss,
             };
         } catch (error) {
             throw new HttpException("Error on fetch", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Mutation(() => AddressResponse)
+    async deleteAddress(@Args('id') id: string) {
+        try {
+            await this.addressService.deleteAddress(id);
+            return { message: 'Address deleted successfully' };
+        } catch (error) {
+            throw new HttpException(lang.INVALID_USER_ID, HttpStatus.BAD_REQUEST);
         }
     }
 }

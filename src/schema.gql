@@ -142,8 +142,10 @@ type Mutation {
   login(input: LoginUserDTO!): UserLoginResponse!
   product(input: CreateProductDTO!): ProductResponse!
   getProduct(input: String!): ProductResponse!
+  deleteProduct(id: String!): ProductResponse!
   address(input: CreateAddressDTO!): AddressResponse!
   getAddressById(input: String!): AddressResponse!
+  deleteAddress(id: String!): AddressResponse!
   createTransaction(createTransactionInput: CreateTransactionInput!): TransactionResponse!
   createOrder(createOrderInput: CreateOrderInput!): OrderResponse!
   updateOrder(updateOrderInput: UpdateOrderInput!): OrderResponse!

@@ -1,6 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { BaseResponse } from 'src/app/api/common/base.response';
-import { ProductResponse } from '../../product/dto/response/product.response';
 import { UserResponse } from '../../user/dto/response/user.response';
 
 @ObjectType()

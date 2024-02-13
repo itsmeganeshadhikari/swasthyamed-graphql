@@ -5,6 +5,8 @@ import { ProductService } from "../service/product.service";
 import { HttpException, HttpStatus, UseGuards } from "@nestjs/common";
 import { JwtAuthGuard } from "../../auth/guard/jwt.authguard";
 import { Roles, RolesGuard } from "../../auth/guard/roles.guard";
+import lang from '../../constants/language';
+import { log } from "console";
 
 @Resolver()
 export class ProductResolver {
@@ -50,6 +52,16 @@ export class ProductResolver {
       };
     } catch (error) {
       throw new HttpException("Error on fetch", HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Mutation(() => ProductResponse)
+  async deleteProduct(@Args('id') id: string) {
+    try {
+      await this.productService.deleteProduct(id);
+      return { message: 'Product deleted successfully' };
+    } catch (error) {
+      throw new HttpException(lang.INVALID_USER_ID, HttpStatus.BAD_REQUEST);
     }
   }
 }

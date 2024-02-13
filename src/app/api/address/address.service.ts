@@ -1,8 +1,10 @@
 import {
-    Injectable,
+    Injectable, NotFoundException,
 } from '@nestjs/common';
 import { AddressRepository } from 'libs/data-access/src/repository/address.repository';
 import { CreateAddressDTO } from './dto/input/create-address.dto';
+import lang from '../constants/language';
+
 @Injectable()
 export class AddressService {
     constructor(
@@ -24,6 +26,15 @@ export class AddressService {
     }
 
     async getAddressById(id: string) {
-        return this.addressRepository.find({ user: id });
+        return await this.addressRepository.find({ user: id });
+    }
+
+    async deleteAddress(id: string) {
+        const address = await this.addressRepository.findById(id);
+        if (!address) {
+            throw new NotFoundException(lang.INVALID_USER_ID);
+        }
+        await this.addressRepository.deleteById(id);
+        return true;
     }
 }
