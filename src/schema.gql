@@ -126,12 +126,30 @@ type OrderResponse {
   order: Order
 }
 
+type OrderN {
+  _id: String!
+  method: String!
+  total: Float!
+  discount: Float!
+  addressName: String!
+  city: String!
+  userName: String!
+  productName: String!
+}
+
+type OrderNResponse {
+  message: String!
+  pagination: Pagination
+  orders: [OrderN!]
+  order: OrderN
+}
+
 type Query {
   getUser(id: String!): UserResponse!
   me: UserResponse!
   productlist: ProductResponse!
   addressList: AddressResponse!
-  order(id: String!): OrderResponse!
+  order: [OrderResponse!]!
 }
 
 type Mutation {
@@ -148,6 +166,7 @@ type Mutation {
   deleteAddress(id: String!): AddressResponse!
   createTransaction(createTransactionInput: CreateTransactionInput!): TransactionResponse!
   createOrder(createOrderInput: CreateOrderInput!): OrderResponse!
+  findOrderByUser(id: String!): OrderNResponse!
   updateOrder(updateOrderInput: UpdateOrderInput!): OrderResponse!
   removeOrder(id: Int!): OrderResponse!
 }

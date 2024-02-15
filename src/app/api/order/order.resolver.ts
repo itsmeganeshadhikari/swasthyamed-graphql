@@ -5,6 +5,9 @@ import { UpdateOrderInput } from './dto/update-order.input';
 import { Order } from 'libs/data-access/src/schema/order.schema';
 import { OrderResponse } from './dto/order.response';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { OrderNResponse } from './dto/ordern-response';
+import { CurrentUser } from '../user/user.decorator';
+import { UserDocument } from 'libs/data-access/src';
 
 @Resolver(() => Order)
 export class OrderResolver {
@@ -28,9 +31,17 @@ export class OrderResolver {
     return this.orderService.findAll();
   }
 
-  @Query(() => OrderResponse, { name: 'order' })
-  findOne(@Args('id', { type: () => String }) id: string) {
-    return this.orderService.findOne(id);
+  @Mutation(() => OrderNResponse, { name: 'findOrderByUser' })
+  async findOne(@Args('id', { type: () => String }) id: string) {
+    try {
+      const orders = await this.orderService.findOne(id);;
+      return {
+        message: 'Order created successfully',
+        orders,
+      };
+    } catch (error) {
+      throw new HttpException("Error on create", HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Mutation(() => OrderResponse)
