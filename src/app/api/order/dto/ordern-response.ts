@@ -22,6 +22,9 @@ class OrderN {
     city: string;
 
     @Field()
+    url: string
+
+    @Field()
     userName: string;
 
     @Field()

@@ -30,6 +30,20 @@ export class OrderRepository extends BaseRepository {
                 discount: 1,
                 userName: { $first: "$userDetails.firstName" },
                 productName: "$productDetails.productName",
+                imageUrl: "$productDetails.image"
+            }
+        },
+        { $unwind: "imageUrl" },
+        {
+            $project: {
+                addressName: 1,
+                city: 1,
+                method: 1,
+                total: 1,
+                discount: 1,
+                userName: 1,
+                productName: 1,
+                url: "$imageUrl.url"
             }
         }
         ]);

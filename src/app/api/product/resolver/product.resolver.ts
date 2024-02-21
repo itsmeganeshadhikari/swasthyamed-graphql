@@ -55,6 +55,19 @@ export class ProductResolver {
     }
   }
 
+  @Mutation(() => ProductResponse, { name: "productName" })
+  async getProductByName(@Args('input') input: string) {
+    try {
+      const products = await this.productService.getProductByName(input);
+      return {
+        message: 'products',
+        products,
+      };
+    } catch (error) {
+      throw new HttpException("Error on fetch", HttpStatus.BAD_REQUEST);
+    }
+  }
+
   @Mutation(() => ProductResponse)
   async deleteProduct(@Args('id') id: string) {
     try {

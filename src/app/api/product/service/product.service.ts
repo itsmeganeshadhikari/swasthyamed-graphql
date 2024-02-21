@@ -63,7 +63,14 @@ export class ProductService {
   }
 
   async getProductById(id: string) {
-    return this.productRepository.getProductById(id);
+    return await this.productRepository.getProductById(id);
+  }
+
+  async getProductByName(productName: string) {
+    if (["baby", "skin"].includes(productName)) {
+      return await this.productRepository.find({ category: { $regex: productName, $options: "i" } })
+    }
+    return await this.productRepository.find({ productName: { $regex: productName, $options: "i" } })
   }
 
   async deleteProduct(id: string) {

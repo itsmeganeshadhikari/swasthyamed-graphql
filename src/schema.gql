@@ -133,6 +133,7 @@ type OrderN {
   discount: Float!
   addressName: String!
   city: String!
+  url: String!
   userName: String!
   productName: String!
 }
@@ -160,6 +161,7 @@ type Mutation {
   login(input: LoginUserDTO!): UserLoginResponse!
   product(input: CreateProductDTO!): ProductResponse!
   getProduct(input: String!): ProductResponse!
+  productName(input: String!): ProductResponse!
   deleteProduct(id: String!): ProductResponse!
   address(input: CreateAddressDTO!): AddressResponse!
   getAddressById(input: String!): AddressResponse!
