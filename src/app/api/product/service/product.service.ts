@@ -33,9 +33,8 @@ export class ProductService {
       const images = []
       await Promise.all(productImage.map(async (image) => {
         const myCloud = await cloudinary.uploader.upload(image, {
-          folder: "products",
+          folder: "swasthya-med",
         })
-        console.log(myCloud);
         images.push({ public_id: myCloud?.public_id, url: myCloud?.url })
       }))
       const product = await this.productRepository.create({
@@ -55,6 +54,7 @@ export class ProductService {
       });
       return product;
     } catch (error) {
+      console.log(error);
     }
   }
 
