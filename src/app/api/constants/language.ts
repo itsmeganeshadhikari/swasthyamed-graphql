@@ -3,6 +3,7 @@ const responseMessages = {
     EMAIL_DOES_NOT_EXIST: 'Email does not exists.',
     INVALID_TOKEN: 'Invalid token',
     INVALID_USER_ID: 'UserID does not exists.',
+    INVALID_PRODUCT_ID: 'ProductID does not exists.',
     INVALID_USER_INPUTS: 'Invalid user inputs',
     INSUFFICIENT_PRIVILEGE: 'Not authorized to perform action',
     PASSWORD_CHANGE_INVALID: 'Enter a valid password and try again',

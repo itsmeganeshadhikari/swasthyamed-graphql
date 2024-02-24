@@ -35,7 +35,7 @@ export class CreateProductDTO {
 
   @Field()
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   productSize: string;
 
   @Field()
@@ -49,7 +49,13 @@ export class CreateProductDTO {
   category: string;
 
   @Field()
+  @IsOptional()
   @IsString()
+  subcategory: string;
+
+  @Field()
+  @IsString()
+  @IsOptional()
   productImagePreview: string
 
   @Field()
@@ -72,10 +78,12 @@ export class CreateProductDTO {
   productImage: [String]
 
   // @Field()
-  // @IsNotEmpty()
+  // @IsOptional()
+  // @IsEmpty()
   // rating: number;
 
   // @Field()
-  // @IsNotEmpty()
+  // @IsOptional()
+  // @IsEmpty()
   // stock: boolean
 }

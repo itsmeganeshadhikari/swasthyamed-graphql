@@ -12,6 +12,14 @@ class ImageType {
   url: string;
 }
 
+class CategoryType {
+  @Prop()
+  category: string;
+
+  @Prop()
+  subcategory: string;
+}
+
 
 @Schema({ timestamps: true })
 export class Product {
@@ -34,7 +42,7 @@ export class Product {
   sku: string
 
   @Prop()
-  category: string;
+  category: CategoryType;
 
   @Prop()
   quantity: number
@@ -65,4 +73,4 @@ export class Product {
 }
 
 export const productSchema = SchemaFactory.createForClass(Product);
-productSchema.index({ productName: 1, category: 1 });
+productSchema.index({ productName: 1, "category.category": 1, "category.subcategory": 1 });

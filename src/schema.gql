@@ -45,6 +45,11 @@ type ImageType {
   url: String!
 }
 
+type CategoryType {
+  category: String!
+  subcategory: String!
+}
+
 type Product {
   _id: String!
   productName: String!
@@ -53,12 +58,12 @@ type Product {
   productCode: String!
   productSize: String!
   sku: String!
-  category: String!
   quantity: Float!
   regularPrice: Float!
   salePrice: Float!
   offerPrice: Float!
   image: [ImageType!]!
+  category: CategoryType!
   rating: Float!
   stock: Boolean!
 }
@@ -163,6 +168,7 @@ type Mutation {
   getProduct(input: String!): ProductResponse!
   productName(input: String!): ProductResponse!
   deleteProduct(id: String!): ProductResponse!
+  updateProduct(id: String!, input: UpdateProductDTO!): ProductResponse!
   address(input: CreateAddressDTO!): AddressResponse!
   getAddressById(input: String!): AddressResponse!
   deleteAddress(id: String!): AddressResponse!
@@ -202,12 +208,30 @@ input CreateProductDTO {
   productSize: String!
   sku: String!
   category: String!
+  subcategory: String!
   productImagePreview: String!
   quantity: Float!
   regularPrice: Float!
   salePrice: Float!
   offerPrice: Float!
   productImage: [String!]!
+}
+
+input UpdateProductDTO {
+  productName: String
+  subDescription: String
+  description: String
+  productCode: String
+  productSize: String
+  sku: String
+  category: String
+  subcategory: String
+  productImagePreview: String
+  quantity: Float
+  regularPrice: Float
+  salePrice: Float
+  offerPrice: Float
+  productImage: [String!]
 }
 
 input CreateAddressDTO {

@@ -10,6 +10,16 @@ class ImageType {
   url: string;
 }
 
+@ObjectType()
+class CategoryType {
+  @Field()
+  category: string;
+
+  @Field()
+  subcategory: string;
+}
+
+
 
 @ObjectType()
 class Product {
@@ -32,10 +42,7 @@ class Product {
   productSize: string;
 
   @Field()
-  sku: string
-
-  @Field()
-  category: string;
+  sku: string;
 
   @Field()
   quantity: number
@@ -51,6 +58,10 @@ class Product {
 
   @Field(() => [ImageType])
   image: [ImageType]
+
+  @Field(() => CategoryType)
+  category: CategoryType
+
 
   @Field({ defaultValue: 20 })
   rating: number;

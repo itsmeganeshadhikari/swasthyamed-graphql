@@ -6,7 +6,7 @@ import { HttpException, HttpStatus, UseGuards } from "@nestjs/common";
 import { JwtAuthGuard } from "../../auth/guard/jwt.authguard";
 import { Roles, RolesGuard } from "../../auth/guard/roles.guard";
 import lang from '../../constants/language';
-import { log } from "console";
+import { UpdateProductDTO } from "../dto/input/update-product.dto";
 
 @Resolver()
 export class ProductResolver {
@@ -73,6 +73,16 @@ export class ProductResolver {
     try {
       await this.productService.deleteProduct(id);
       return { message: 'Product deleted successfully' };
+    } catch (error) {
+      throw new HttpException(lang.INVALID_USER_ID, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Mutation(() => ProductResponse)
+  async updateProduct(@Args('id') id: string, @Args('input') input: UpdateProductDTO) {
+    try {
+      await this.productService.updateProduct(id, input);
+      return { message: 'Product updated successfully' };
     } catch (error) {
       throw new HttpException(lang.INVALID_USER_ID, HttpStatus.BAD_REQUEST);
     }

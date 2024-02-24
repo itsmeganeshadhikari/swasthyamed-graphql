@@ -1,10 +1,12 @@
 import {
+  BadRequestException,
   Injectable, NotFoundException,
 } from '@nestjs/common';
 import { ProductRepository } from 'libs/data-access/src/repository/product.repository';
 import { CreateProductDTO } from '../dto/input/create-product.dto';
 import cloudinary from '../../cloudinary/cloudinary';
 import lang from '../../constants/language';
+import { UpdateProductDTO } from '../dto/input/update-product.dto';
 
 @Injectable()
 export class ProductService {
@@ -13,6 +15,8 @@ export class ProductService {
   ) { }
 
   async createProduct(input: CreateProductDTO) {
+    console.log(input);
+
     const {
       productName,
       description,
@@ -23,6 +27,7 @@ export class ProductService {
       productSize,
       sku,
       category,
+      subcategory,
       quantity,
       regularPrice,
       salePrice,
@@ -44,7 +49,7 @@ export class ProductService {
         productCode,
         productSize,
         sku,
-        category,
+        category: { category, subcategory },
         quantity,
         regularPrice,
         salePrice,
@@ -67,8 +72,8 @@ export class ProductService {
   }
 
   async getProductByName(productName: string) {
-    if (["baby", "skin"].includes(productName)) {
-      return await this.productRepository.find({ category: { $regex: productName, $options: "i" } })
+    if (["baby", "skin", "surgical", "nutrition", "medicine"].includes(productName)) {
+      return await this.productRepository.find({ "category.category": { $regex: productName, $options: "i" } })
     }
     return await this.productRepository.find({ productName: { $regex: productName, $options: "i" } })
   }
@@ -80,5 +85,22 @@ export class ProductService {
     }
     await this.productRepository.deleteById(id);
     return true;
+  }
+
+  async updateProduct(id: string, data: UpdateProductDTO) {
+    // find the user if exists;
+    const product = await this.productRepository.findById(id);
+    if (!product) {
+      throw new NotFoundException(lang.INVALID_PRODUCT_ID);
+    }
+
+    const updateProduct = await this.productRepository.updateById(id, data, {
+      new: true,
+    });
+    if (!updateProduct) {
+      throw new BadRequestException(lang.INVALID_PRODUCT_ID);
+    }
+    return updateProduct;
+
   }
 }

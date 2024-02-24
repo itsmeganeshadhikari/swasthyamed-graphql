@@ -34,13 +34,13 @@ export class OrderResolver {
   @Mutation(() => OrderNResponse, { name: 'findOrderByUser' })
   async findOne(@Args('id', { type: () => String }) id: string) {
     try {
-      const orders = await this.orderService.findOne(id);;
+      const orders = await this.orderService.findOne(id);
       return {
         message: 'Order created successfully',
         orders,
       };
     } catch (error) {
-      throw new HttpException("Error on create", HttpStatus.BAD_REQUEST);
+      throw new HttpException("Errpr on fetch", HttpStatus.BAD_REQUEST);
     }
   }
 
