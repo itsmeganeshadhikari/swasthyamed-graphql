@@ -72,8 +72,11 @@ export class ProductService {
   }
 
   async getProductByName(productName: string) {
-    if (["baby", "skin", "surgical", "nutrition", "medicine"].includes(productName)) {
+    if (["baby", "surgical", "nutrition", "medicine"].includes(productName)) {
       return await this.productRepository.find({ "category.category": { $regex: productName, $options: "i" } })
+    }
+    if (["milk", "daiper", "skin", "supplement"].includes(productName)) {
+      return await this.productRepository.find({ "category.subcategory": { $regex: productName, $options: "i" } })
     }
     return await this.productRepository.find({ productName: { $regex: productName, $options: "i" } })
   }
